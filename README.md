@@ -41,7 +41,7 @@ cf_ai_agent_assistant/
 └── PROMPTS.md           # AI prompts used to build this project
 ```
 
-## 🛠️ Deployment Instructions
+## Deployment Instructions
 
 Follow these steps to deploy your own instance of the Cloudflare AI Agent Assistant:
 
