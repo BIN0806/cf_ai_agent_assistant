@@ -106,6 +106,77 @@
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
+        /* Formatting for assistant messages */
+        .message.assistant .message-content h1,
+        .message.assistant .message-content h2,
+        .message.assistant .message-content h3 {
+            margin-top: 12px;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .message.assistant .message-content h1 {
+            font-size: 18px;
+        }
+
+        .message.assistant .message-content h2 {
+            font-size: 16px;
+        }
+
+        .message.assistant .message-content h3 {
+            font-size: 15px;
+        }
+
+        .message.assistant .message-content p {
+            margin-bottom: 12px;
+        }
+
+        .message.assistant .message-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .message.assistant .message-content strong {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .message.assistant .message-content ol,
+        .message.assistant .message-content ul {
+            margin: 12px 0;
+            padding-left: 24px;
+        }
+
+        .message.assistant .message-content li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .message.assistant .message-content li:last-child {
+            margin-bottom: 0;
+        }
+
+        .message.assistant .message-content code {
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 13px;
+        }
+
+        .message.assistant .message-content pre {
+            background: #f3f4f6;
+            padding: 12px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 12px 0;
+        }
+
+        .message.assistant .message-content pre code {
+            background: none;
+            padding: 0;
+        }
+
         .message-label {
             font-size: 11px;
             font-weight: 600;
@@ -286,6 +357,52 @@
             }
         }
 
+        // Convert markdown-style text to HTML
+        function formatMarkdown(text) {
+            // Convert bold text **text** to <strong>text</strong>
+            text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+            
+            // Split into lines for processing
+            const lines = text.split('\n');
+            const formatted = [];
+            let inList = false;
+            let listItems = [];
+            
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i].trim();
+                
+                // Check if line is a numbered list item
+                const listMatch = line.match(/^(\d+)\.\s+(.+)/);
+                
+                if (listMatch) {
+                    if (!inList) {
+                        inList = true;
+                        listItems = [];
+                    }
+                    listItems.push(`<li>${listMatch[2]}</li>`);
+                } else {
+                    // If we were in a list, close it
+                    if (inList) {
+                        formatted.push(`<ol>${listItems.join('')}</ol>`);
+                        listItems = [];
+                        inList = false;
+                    }
+                    
+                    // Add regular line as paragraph if not empty
+                    if (line) {
+                        formatted.push(`<p>${line}</p>`);
+                    }
+                }
+            }
+            
+            // Close list if still open
+            if (inList) {
+                formatted.push(`<ol>${listItems.join('')}</ol>`);
+            }
+            
+            return formatted.join('');
+        }
+
         // Add message to chat
         function addMessage(role, content) {
             removeWelcomeMessage();
@@ -295,7 +412,13 @@
             
             const contentDiv = document.createElement('div');
             contentDiv.className = 'message-content';
-            contentDiv.textContent = content;
+            
+            // Format assistant messages, keep user messages as plain text
+            if (role === 'assistant') {
+                contentDiv.innerHTML = formatMarkdown(content);
+            } else {
+                contentDiv.textContent = content;
+            }
             
             messageDiv.appendChild(contentDiv);
             chatContainer.appendChild(messageDiv);
