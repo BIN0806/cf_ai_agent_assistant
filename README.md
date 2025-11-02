@@ -1,6 +1,6 @@
 # Cloudflare AI Agent Assistant
 
-A sophisticated AI-powered chat assistant built entirely on the Cloudflare platform. This application demonstrates the power of Cloudflare's serverless technologies by creating an intelligent chatbot that can answer questions about Cloudflare products and services while maintaining conversation context.
+A  AI-powered chat assistant built entirely on the Cloudflare platform. This application demonstrates the power of Cloudflare's serverless technologies by creating an intelligent chatbot that can answer questions about Cloudflare products and services while maintaining conversation context.
 
 ## Technologies Used
 
@@ -37,7 +37,7 @@ cf_ai_agent_assistant/
 └── PROMPTS.md           # AI prompts used to build this project
 ```
 
-## 🛠️ Deployment Instructions
+## Deployment Instructions
 
 Follow these steps to deploy your own instance of the Cloudflare AI Agent Assistant:
 
