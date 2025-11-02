@@ -1,0 +1,26 @@
+{
+  "name": "cf-ai-agent-assistant",
+  "version": "1.0.0",
+  "description": "Cloudflare AI Ticket Assistant using Workers AI, Durable Objects, and Pages",
+  "main": "src/index.ts",
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev",
+    "deploy-pages": "wrangler pages deploy public"
+  },
+  "keywords": [
+    "cloudflare",
+    "workers",
+    "ai",
+    "durable-objects",
+    "pages"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241127.0",
+    "typescript": "^5.3.3",
+    "wrangler": "^3.86.1"
+  }
+}
+
